@@ -1,0 +1,80 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: url("../images/sbg.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+
+.wrapper-container {
+  height: 85vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  width: 350px;
+  background: #000000;
+  padding: 40px;
+  border-radius: 10px;
+  color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.wrapper h1 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.input-box {
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  background: #eee;
+}
+
+.btn {
+  width: 100%;
+  padding: 10px;
+  background: #ff9900;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn:hover {
+  background: #db880b;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.register-link a {
+  color: #ff9900;
+  text-decoration: none;
+}
+
+.success {
+  background-color: rgb(81, 220, 97);
+  padding: 10px;
+  margin-bottom: 6px;
+}
+
+.error {
+  background-color: rgb(210, 104, 104);
+  padding: 10px;
+  margin-bottom: 6px;
+}
