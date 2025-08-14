@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Food Item</title>
+</head>
+<body>
+    <h2>Add New Food Item</h2>
+    <form action="add_food.php" method="POST" enctype="multipart/form-data">
+        <label>Food Name:</label>
+        <input type="text" name="foodname" required><br><br>
+
+        <label>Price:</label>
+        <input type="text" name="price" required><br><br>
+
+        <label>Description:</label>
+        <textarea name="description" required></textarea><br><br>
+
+        <label>Category:</label>
+        <select name="category" required>
+            <option value="Biriyani">Biriyani</option>
+            <option value="Burger">Burger</option>
+            <option value="Pizza">Pizza</option>
+            <option value="Pasta">Pasta</option>
+            <option value="Nachos">Nachos</option>
+            <option value="Wrap">Wrap</option>
+            <option value="Fries">Fries</option>
+            <option value="Dessert">Dessert</option>
+            <option value="Drinks">Drinks</option>
+        </select><br><br>
+
+        <label>Restaurant:</label>
+        <select name="restaurant" required>
+            <option value="Kacchi Bhai">Kacchi Bhai</option>
+            <option value="Kacchi Express">Kacchi Express</option>
+            <option value="Chomok">Chomok</option>
+            <option value="Pizzaburg">Pizzaburg</option>
+            <option value="Pizzaco">Pizzaco</option>
+            <option value="Chillox">Chillox</option>
+            <option value="Khanas">Khanas</option>
+        </select><br><br>
+
+        <label>Cuisine:</label>
+        <select name="cuisine" required>
+            <option value="Bangla Cuisine">Bangla Cuisine</option>
+            <option value="Italian">Italian</option>
+            <option value="Chinese">Chinese</option>
+            <option value="Mexican">Mexican</option>
+            <option value="Indian">Indian</option>
+            <option value="American">American</option>
+        </select><br><br>
+
+        <label>Upload Food Images (3-4):</label>
+        <input type="file" name="images[]" multiple required><br><br>
+
+        <input type="submit" value="Add Food">
+    </form>
+</body>
+</html>

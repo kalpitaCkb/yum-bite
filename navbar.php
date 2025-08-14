@@ -27,7 +27,7 @@
 
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.php">Home</a></li>
-                <li><a href="menu.html">Menu</a></li>
+                <li><a href="menu.php">Menu</a></li>
                 <li><a href="#">Categories</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"

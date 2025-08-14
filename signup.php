@@ -26,22 +26,15 @@
       </div>
 
       <ul class="nav-links" id="navLinks">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="menu.html">Menu</a></li>
-        <li><a href="#">Categories</a></li>
-        <li class="dropdown">
-          <input type="checkbox" id="theme-toggle" class="dropdown-checkbox" />
-          <label for="theme-toggle" class="dropdown-label">Theme ⬇</label>
-          <ul class="dropdown-menu">
-            <li><a href="#" onclick="switchTheme('css/style-dark.css')">🌙 Dark Theme</a></li>
-            <li><a href="#" onclick="switchTheme('css/style-light.css')">☀️ Light Theme</a></li>
-          </ul>
-        </li>
-        <li><a href="#">About Us</a></li>
-        <li><a href="#">Contact</a></li>
-        <li class="cart"><a href="#">🛒 Cart</a></li>
-        <li><a href="login.html" class="login-btn">Login →</a></li>
+        <li><a href="index.php">Home</a></li>
+        <li><a href="menu.php">Menu</a></li>
+        <li><a href="#" onclick="openAbout()">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="login.php" class="login-btn">Login →</a></li>
+        <li class="cart"><a href="cart.php">🛒</a></li>
       </ul>
+
+
     </nav>
   </header>
 
@@ -91,7 +84,7 @@
           $sql = "INSERT INTO users (full_name, email, password) VALUES ( ?, ?, ? )";
           $stmt = mysqli_stmt_init($conn);
           $prepareStmt = mysqli_stmt_prepare($stmt, $sql);
-          
+
           if ($prepareStmt) {
             mysqli_stmt_bind_param($stmt, "sss", $fullName, $email, $passwordHash);
             mysqli_stmt_execute($stmt);
