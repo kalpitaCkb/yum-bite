@@ -44,7 +44,7 @@ $conn->close();
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>YumBite | Home</title>
+  <title>YumBite | Contact</title>
   <link rel="icon" href="images/logo1.png" type="image/png" />
 
   <!-- Your dark theme CSS -->

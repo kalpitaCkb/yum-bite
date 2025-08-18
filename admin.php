@@ -315,7 +315,7 @@ $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
                 <p class="label">Description</p>
                 <textarea name="description" id="description" required></textarea>
 
-                <p class="label">Description</p>
+                <p class="label">Category</p>
                 <select name="category" id="category" required>
                     <option value="">Select Category</option>
                     <?php foreach ($categories as $cat): ?>
@@ -343,7 +343,7 @@ $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
                     <label for="cuisine">Cuisine</label>
                 </div> -->
 
-                <p class="label">Restaurant</p>
+                <p class="label">Cuisine</p>
                 <select name="cuisine" id="cuisine" required>
                     <option value="">Select Cuisine</option>
                     <?php foreach ($cuisines as $cui): ?>

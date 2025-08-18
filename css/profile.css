@@ -112,12 +112,13 @@ table,
 th,
 td {
   border: 1px solid #ccc;
+  background-color: #3f3d3d;
   padding: 10px;
   text-align: center;
 }
 
 th {
-  background-color: #ff6f61;
+  background-color: #1f1f1f;
   color: white;
 }
 

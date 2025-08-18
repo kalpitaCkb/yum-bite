@@ -20,7 +20,7 @@ $result = mysqli_query($conn, $sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YumBite | Admin Orders</title>
+    <title>YumBite | User Reviews</title>
     <link rel="icon" href="images/logo1.png" type="image/png">
     <link id="theme-style" rel="stylesheet" href="css/style-dark.css">
     <link rel="stylesheet" href="css/style.css">
@@ -46,12 +46,13 @@ $result = mysqli_query($conn, $sql);
         th,
         td {
             border: 1px solid #ccc;
+            background-color: #3f3d3d;
             padding: 10px;
             text-align: center;
         }
 
         th {
-            background-color: #ff6f61;
+            background-color: #1f1f1f;
             color: white;
         }
 
@@ -91,6 +92,10 @@ $result = mysqli_query($conn, $sql);
             .admin-container {
                 padding: 20px 30px;
             }
+
+            .table-container {
+                overflow-x: auto;
+            }
         }
     </style>
 </head>
@@ -122,24 +127,26 @@ $result = mysqli_query($conn, $sql);
     <div class="admin-container">
         <h1 class="text-center">All User Reviews</h1>
 
-        <table>
-            <tr>
-                <th>User</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Subject</th>
-                <th>Message</th>
-            </tr>
-            <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+        <div class="table-container">
+            <table>
                 <tr>
-                    <td><?php echo htmlspecialchars($row['full_name']); ?></td>
-                    <td><?php echo htmlspecialchars($row['email']); ?></td>
-                    <td><?php echo htmlspecialchars($row['phone']); ?></td>
-                    <td><?php echo htmlspecialchars($row['subject']); ?></td>
-                    <td><?php echo htmlspecialchars($row['message']); ?></td>
+                    <th>User</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Subject</th>
+                    <th>Message</th>
                 </tr>
-            <?php } ?>
-        </table>
+                <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($row['full_name']); ?></td>
+                        <td><?php echo htmlspecialchars($row['email']); ?></td>
+                        <td><?php echo htmlspecialchars($row['phone']); ?></td>
+                        <td><?php echo htmlspecialchars($row['subject']); ?></td>
+                        <td><?php echo htmlspecialchars($row['message']); ?></td>
+                    </tr>
+                <?php } ?>
+            </table>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

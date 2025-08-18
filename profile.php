@@ -142,7 +142,7 @@ mysqli_close($conn);
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>YumBite | Home</title>
+    <title>YumBite | Profile</title>
     <link rel="icon" href="images/logo1.png" type="image/png">
 
     <!-- Your dark theme CSS -->
@@ -261,22 +261,30 @@ mysqli_close($conn);
                 <?php } ?>
                 <table>
                     <tr>
-                        <th>ID</th>
+                        <!-- <th>ID</th> -->
                         <th>Food</th>
                         <th>Quantity</th>
                         <th>Amount (BDT)</th>
                         <th>Status</th>
-                        <th>Created At</th>
+                        <th>Date</th>
+                        <th>TIme</th>
                     </tr>
                     <?php if (isset($result) && mysqli_num_rows($result) > 0) { ?>
                         <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                            <?php
+                            $timestamp = strtotime($row["created_at"]);
+                            $date = date("F j, Y", $timestamp);
+                            $time = date("g:i A", $timestamp);
+                            ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($row['id']); ?></td>
+                                <!-- <td><?php echo htmlspecialchars($row['id']); ?></td> -->
                                 <td><?php echo htmlspecialchars($row['food_name']); ?></td>
                                 <td><?php echo htmlspecialchars($row['quantity']); ?></td>
                                 <td><?php echo htmlspecialchars($row['amount']); ?></td>
                                 <td><?php echo htmlspecialchars($row['status']); ?></td>
-                                <td><?php echo htmlspecialchars($row['created_at']); ?></td>
+                                <!-- <td><?php echo htmlspecialchars($row['created_at']); ?></td> -->
+                                <td><?php echo htmlspecialchars($date) ?></td>
+                                <td><?php echo htmlspecialchars($time) ?></td>
                             </tr>
                         <?php } ?>
                     <?php } else { ?>

@@ -70,17 +70,29 @@ $result = mysqli_query($conn, $sql);
         th,
         td {
             border: 1px solid #ccc;
+            background-color: #3f3d3d;
             padding: 10px;
             text-align: center;
         }
 
         th {
-            background-color: #ff6f61;
+            background-color: #1f1f1f;
             color: white;
         }
 
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        form select {
+            padding: 3% 1%;
+            border-radius: 5px;
+        }
+
         .btn {
-            background-color: #ff6f61;
+            background-color: #ffa500;
             color: white;
             padding: 5px 10px;
             border: none;
@@ -89,7 +101,7 @@ $result = mysqli_query($conn, $sql);
         }
 
         .btn:hover {
-            background-color: #e55a50;
+            background-color: #ff9900;
         }
 
         .error,
@@ -114,6 +126,10 @@ $result = mysqli_query($conn, $sql);
         @media screen and (max-width: 768px) {
             .admin-container {
                 padding: 20px 30px;
+            }
+
+            .table-container {
+                overflow-x: auto;
             }
         }
     </style>
@@ -155,48 +171,59 @@ $result = mysqli_query($conn, $sql);
         }
         ?>
 
-        <table>
-            <tr>
-                <!-- <th>ID</th> -->
-                <th>User</th>
-                <th>Food</th>
-                <th>Quantity</th>
-                <th>Amount (BDT)</th>
-                <th>Status</th>
-                <th>Created At</th>
-                <th>Action</th>
-            </tr>
-            <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+        <div class="table-container">
+            <table>
                 <tr>
-                    <!-- <td><?php echo htmlspecialchars($row['id']); ?></td> -->
-                    <td><?php echo htmlspecialchars($row['full_name']); ?></td>
-                    <td><?php echo htmlspecialchars($row['food_name']); ?></td>
-                    <td><?php echo htmlspecialchars($row['quantity']); ?></td>
-                    <td><?php echo htmlspecialchars($row['amount']); ?></td>
-                    <td><?php echo htmlspecialchars($row['status']); ?></td>
-                    <td><?php echo htmlspecialchars($row['created_at']); ?></td>
-                    <td>
-                        <form method="POST">
-                            <input type="hidden" name="order_id" value="<?php echo $row['id']; ?>">
-                            <select name="status">
-                                <option value="Pending" <?php echo $row['status'] == 'Pending' ? 'selected' : ''; ?>>Pending
-                                </option>
-                                <option value="Accepted" <?php echo $row['status'] == 'Accepted' ? 'selected' : ''; ?>>
-                                    Accepted</option>
-                                <option value="Preparing" <?php echo $row['status'] == 'Preparing' ? 'selected' : ''; ?>>
-                                    Preparing</option>
-                                <option value="Out for Delivery" <?php echo $row['status'] == 'Out for Delivery' ? 'selected' : ''; ?>>Out for Delivery</option>
-                                <option value="Completed" <?php echo $row['status'] == 'Completed' ? 'selected' : ''; ?>>
-                                    Completed</option>
-                                <option value="Cancelled" <?php echo $row['status'] == 'Cancelled' ? 'selected' : ''; ?>>
-                                    Cancelled</option>
-                            </select>
-                            <button type="submit" name="update_status" class="btn">Update</button>
-                        </form>
-                    </td>
+                    <!-- <th>ID</th> -->
+                    <th>User</th>
+                    <th>Food</th>
+                    <th>Quantity</th>
+                    <th>Amount (BDT)</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Action</th>
                 </tr>
-            <?php } ?>
-        </table>
+                <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                    <?php
+                    $timestamp = strtotime($row["created_at"]);
+                    $date = date("F j, Y", $timestamp);
+                    $time = date("g:i A", $timestamp);
+                    ?>
+                    <tr>
+                        <!-- <td><?php echo htmlspecialchars($row['id']); ?></td> -->
+                        <td><?php echo htmlspecialchars($row['full_name']); ?></td>
+                        <td><?php echo htmlspecialchars($row['food_name']); ?></td>
+                        <td><?php echo htmlspecialchars($row['quantity']); ?></td>
+                        <td><?php echo htmlspecialchars($row['amount']); ?></td>
+                        <td><?php echo htmlspecialchars($row['status']); ?></td>
+                        <!-- <td><?php echo htmlspecialchars($row['created_at']); ?></td> -->
+                        <td><?php echo $date; ?></td>
+                        <td><?php echo $time; ?></td>
+                        <td>
+                            <form method="POST">
+                                <input type="hidden" name="order_id" value="<?php echo $row['id']; ?>">
+                                <select name="status">
+                                    <option value="Pending" <?php echo $row['status'] == 'Pending' ? 'selected' : ''; ?>>
+                                        Pending
+                                    </option>
+                                    <option value="Accepted" <?php echo $row['status'] == 'Accepted' ? 'selected' : ''; ?>>
+                                        Accepted</option>
+                                    <option value="Preparing" <?php echo $row['status'] == 'Preparing' ? 'selected' : ''; ?>>
+                                        Preparing</option>
+                                    <option value="Out for Delivery" <?php echo $row['status'] == 'Out for Delivery' ? 'selected' : ''; ?>>Out for Delivery</option>
+                                    <option value="Completed" <?php echo $row['status'] == 'Completed' ? 'selected' : ''; ?>>
+                                        Completed</option>
+                                    <option value="Cancelled" <?php echo $row['status'] == 'Cancelled' ? 'selected' : ''; ?>>
+                                        Cancelled</option>
+                                </select>
+                                <button type="submit" name="update_status" class="btn">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php } ?>
+            </table>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

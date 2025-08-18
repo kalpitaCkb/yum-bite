@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>YumBite | Home</title>
+  <title>YumBite | Signup</title>
   <link rel="icon" href="images/logo1.png" type="image/png">
 
   <link id="theme-style" rel="stylesheet" href="css/style-dark.css" />
@@ -68,12 +68,19 @@
         if (empty($fullName) || empty($phone) || empty($email) || empty($password) || empty($confirmPassword) || empty($address)) {
           array_push($errors, "All Fields are required");
         }
+
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
           array_push($errors, "Email is not valid");
         }
+
+        if (substr($email, -10) !== "@gmail.com") {
+          array_push($errors, "Only Gmail addresses are allowed");
+        }
+
         if (strlen($password) < 8) {
           array_push($errors, "Password must be at least 8 characters long");
         }
+
         if ($password != $confirmPassword) {
           array_push($errors, "Password does not match");
         }
