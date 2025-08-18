@@ -1,0 +1,269 @@
+* {
+  box-sizing: border-box;
+}
+
+.food-menu-container {
+  padding: 0 30px;
+}
+
+.food-menu h2 {
+  color: white;
+}
+
+.food-menu .container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+.food-menu-box {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 30px;
+  background-color: #1b1b1b;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.food-menu-box:hover {
+  transform: scale(1.02);
+  background-color: #302e2e;
+}
+
+.food-menu-img {
+  width: 100%;
+  height: 250px;
+}
+
+.food-menu-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.food-menu-desc {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.food-menu-desc .button {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.food-menu-desc .button a {
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.food-menu-desc h4 {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.food-price {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+}
+
+.food-price .dot {
+  background-color: white;
+  width: 5px;
+  height: 5px;
+  border-radius: 40px;
+}
+
+.food-detail {
+  font-size: 14px;
+  /* margin: 10px 0; */
+  color: #a8a2a8;
+}
+
+.food-menu-desc a {
+  display: inline-block;
+}
+
+/* Modal Styling */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #1b1b1b;
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: scroll;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.3s ease-in-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: white;
+}
+
+.modal-content h4 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+#modalImageContainer {
+  margin-bottom: 20px;
+}
+
+#modalImageContainer img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+#modalImageContainer .no-image {
+  background-color: #ddd;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Form Styling */
+#updateForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#updateForm label {
+  font-size: 1rem;
+}
+
+#updateForm input[type="text"],
+#updateForm input[type="number"],
+#updateForm textarea,
+#updateForm input[type="file"],
+#updateForm select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: #fff;
+}
+
+#updateForm textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+#updateForm input[type="number"] {
+  appearance: textfield;
+}
+
+#updateForm input[type="number"]::-webkit-outer-spin-button,
+#updateForm input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#updateForm button[type="submit"] {
+  width: 100%;
+  align-self: flex-start;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ff9900;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+#updateForm button[type="submit"]:hover {
+  background-color: #e08e13;
+}
+
+/* notification feature */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #4caf50;
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  display: none;
+  z-index: 1000;
+}
+
+/* for smaller devices */
+
+@media screen and (max-width: 768px) {
+  .food-menu {
+    padding: 40px 0;
+  }
+
+  .food-menu h2 {
+    margin-bottom: 40px;
+  }
+
+  .food-menu .container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .food-menu-box {
+    width: 100%;
+  }
+
+  .food-menu-img {
+    height: 200px;
+  }
+
+  .modal-content {
+    width: 450px;
+  }
+
+  .modal-content h4 {
+    font-size: 1.3rem;
+  }
+
+  #modalImageContainer img {
+    height: 250px;
+  }
+}

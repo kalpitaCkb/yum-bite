@@ -22,6 +22,7 @@ session_start();
 
   <!-- Your dark theme CSS -->
   <link rel="stylesheet" href="css/style-dark.css">
+  <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/index.css">
 </head>
 
@@ -44,13 +45,13 @@ session_start();
         <li><a href="index.php">Home</a></li>
         <li><a href="menu.php">Menu</a></li>
         <li><a href="#" onclick="openAbout()">About Us</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="contact.php">Contact</a></li>
         <li>
-          <?php if (isset($_SESSION["user"])): ?>
+          <?php if (isset($_SESSION["user_id"]) && $_SESSION["role"] === "user"): ?>
             <div class="profile-circle" id="profileCircle">
-              <?php echo strtoupper(substr($_SESSION["user"], 0, 1)); ?>
+              <?php echo strtoupper(substr($_SESSION["full_name"], 0, 1)); ?>
               <div class="dropdown-menu" id="dropdownMenu">
-                <a href="account.php">My Account</a>
+                <a href="profile.php">My Account</a>
                 <a href="logout.php">Logout</a>
               </div>
             </div>
@@ -60,8 +61,6 @@ session_start();
         </li>
         <li class="cart"><a href="cart.php">🛒</a></li>
       </ul>
-
-
     </nav>
   </header>
 
@@ -254,7 +253,6 @@ session_start();
   <!-- Swiper JS -->
   <!-- <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
 
   <script>
 

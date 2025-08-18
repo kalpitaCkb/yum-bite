@@ -11,12 +11,12 @@ body {
 
 nav {
   background-color: #000000;
-  color: #FFA500;
+  color: #ffa500;
   padding: 8px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid #FFA500;
+  border-bottom: 2px solid #ffa500;
   position: relative;
   flex-wrap: wrap;
 }
@@ -58,7 +58,7 @@ nav {
 }
 
 .nav-links li a:hover {
-  color: #FFA500;
+  color: #ffa500;
 }
 
 .nav-links li.cart {
@@ -102,7 +102,7 @@ nav {
   display: none;
   position: absolute;
   background-color: #000000;
-  border: 1px solid #FFA500;
+  border: 1px solid #ffa500;
   border-radius: 4px;
   margin-top: 5px;
   z-index: 1000;
@@ -122,19 +122,19 @@ nav {
 }
 
 .dropdown-menu li a:hover {
-  background-color: #FFA500;
+  background-color: #ffa500;
   color: black;
 }
 
 /* Hero section */
 .hero {
-  background: url('../images/bg.jpg') no-repeat center center/cover;
+  background: url("../images/bg.jpg") no-repeat center center/cover;
   min-height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding-left: 40px;
-  color: #FFA500;
+  color: #ffa500;
 }
 
 .hero h1 {
@@ -167,7 +167,7 @@ footer {
   background-color: #000000;
   text-align: center;
   padding: 10px;
-  color: #FFA500;
+  color: #ffa500;
   font-weight: bold;
   border-top: 3px solid #ffa500;
 }
@@ -185,7 +185,7 @@ footer {
 .hamburger span {
   width: 25px;
   height: 3px;
-  background: #FFA500;
+  background: #ffa500;
   border-radius: 2px;
   display: block;
   transition: all 0.3s ease;
@@ -212,7 +212,7 @@ footer {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0, 0, 0, 0.8); 
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .popup-content {
@@ -234,6 +234,7 @@ footer {
   font-size: 32px;
   margin-bottom: 20px;
   font-weight: bold;
+  color: #fff;
 }
 
 .popup-content span {
@@ -253,7 +254,7 @@ footer {
 }
 
 .slider-section h2 {
-  color: #FFA500;
+  color: #ffa500;
   margin-bottom: 20px;
   font-size: 1.5rem;
   font-weight: bold;
@@ -297,25 +298,24 @@ footer {
   font-weight: bold;
   font-size: 1rem;
   margin: 0;
-  color: #FFA500;
+  color: #ffa500;
 }
 
 /* Swiper navigation buttons */
 .swiper-button-next,
 .swiper-button-prev {
-  color: #FFA500;
+  color: #ffa500;
 }
 
 /* Swiper pagination bullets */
 .swiper-pagination-bullet {
-  background: #FFA500;
+  background: #ffa500;
   opacity: 0.7;
 }
 
 .swiper-pagination-bullet-active {
   opacity: 1;
 }
-
 
 @media (max-width: 768px) {
   .hamburger {
@@ -330,7 +330,7 @@ footer {
     flex-direction: column;
     width: 220px;
     padding: 20px;
-    border: 2px solid #FFA500;
+    border: 2px solid #ffa500;
     border-radius: 5px;
     display: none;
   }
@@ -355,4 +355,3 @@ footer {
     font-weight: normal;
   }
 }
-

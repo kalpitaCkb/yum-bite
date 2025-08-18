@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if (isset($_SESSION["user"])) {
+if (isset($_SESSION["email"])) {
   header("Location: index.php");
 }
 
@@ -17,6 +17,7 @@ if (isset($_SESSION["user"])) {
   <link rel="icon" href="images/logo1.png" type="image/png">
 
   <link id="theme-style" rel="stylesheet" href="css/style-dark.css" />
+  <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/login.css" />
 </head>
 
@@ -38,18 +39,22 @@ if (isset($_SESSION["user"])) {
         <li><a href="index.php">Home</a></li>
         <li><a href="menu.php">Menu</a></li>
         <li><a href="#" onclick="openAbout()">About Us</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="contact.php">Contact</a></li>
         <li>
-          <?php if (isset($_SESSION["user"])): ?>
-            <a href="logout.php" class="login-btn">Logout →</a>
+          <?php if (isset($_SESSION["full_name"])): ?>
+            <div class="profile-circle" id="profileCircle">
+              <?php echo strtoupper(substr($_SESSION["full_name"], 0, 1)); ?>
+              <div class="dropdown-menu" id="dropdownMenu">
+                <a href="profile.php">My Account</a>
+                <a href="logout.php">Logout</a>
+              </div>
+            </div>
           <?php else: ?>
             <a href="login.php" class="login-btn">Login →</a>
           <?php endif; ?>
         </li>
         <li class="cart"><a href="cart.php">🛒</a></li>
       </ul>
-
-
     </nav>
   </header>
 
@@ -69,13 +74,33 @@ if (isset($_SESSION["user"])) {
         $user = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
         if ($user) {
-          if (password_verify($password, $user["password"])) {
-            session_start();
-            $_SESSION["user"] = $user["full_name"];
-            header("Location: index.php");
-            die();
+          if ($user["role"] === "admin") {
+            // Direct password comparison for admin
+            if ($password === $user["password"]) {
+              session_start();
+              $_SESSION["user_id"] = $user["id"];
+              $_SESSION["email"] = $user["email"];
+              $_SESSION["full_name"] = $user["full_name"];
+              $_SESSION["role"] = $user["role"];
+              header("Location: admin.php");
+              die();
+            } else {
+              echo "<div class='error'>Password does not match</div>";
+            }
           } else {
-            echo "<div class='error'>Password does not match</div>";
+            // Password hash verification for regular users
+            if (password_verify($password, $user["password"])) {
+              session_start();
+              $_SESSION["user_id"] = $user["id"];
+              $_SESSION["email"] = $user["email"];
+              $_SESSION["full_name"] = $user["full_name"];
+              $_SESSION["phone"] = $user["phone"];
+              $_SESSION["role"] = $user["role"];
+              header("Location: index.php");
+              die();
+            } else {
+              echo "<div class='error'>Password does not match</div>";
+            }
           }
         } else {
           echo "<div class='error'>Email does not exists</div>";
@@ -95,10 +120,6 @@ if (isset($_SESSION["user"])) {
           <input type="password" name="password" placeholder="Password" />
         </div>
 
-        <div class="remember-forget">
-          <label><input type="checkbox" /> Remember me</label>
-        </div>
-
         <div>
           <input type="submit" value="Login" name="login" class="btn">
         </div>
@@ -107,6 +128,27 @@ if (isset($_SESSION["user"])) {
           <p>Don't have an account? <a href="signup.php">Sign Up</a></p>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- Triggered by clicking "About Us" link in nav -->
+  <!-- About Us Popup -->
+  <div class="popup" id="aboutPopup">
+    <div class="popup-content">
+      <span onclick="closeAbout()">&times;</span>
+      <h2>About Us</h2>
+      <p>
+        Launched in 2021, Our technology platform connects customers,<br>
+        restaurant partners and delivery partners, serving their multiple needs. <br>
+        Customers use our platform to search and discover restaurants, read and write customer
+        generated reviews and view and upload photos,<br> order food delivery, book a table and make
+        payments while dining-out at restaurants. On the other hand,<br> we provide restaurant partners
+        with industry-specific marketing tools which enable them to engage and acquire customers<br> to
+        grow their business while also providing a reliable <br>and efficient last mile delivery service.
+        We also operate a one-stop procurement solution, <br>Hyperpure, which supplies high quality ingredients
+        and kitchen products to restaurant partners.<br> We also provide our delivery partners with transparent
+        and flexible earning opportunities.
+      </p>
     </div>
   </div>
 
@@ -146,6 +188,16 @@ if (isset($_SESSION["user"])) {
         });
       });
     });
+  </script>
+
+  <script>
+    function openAbout() {
+      document.getElementById("aboutPopup").style.display = "block";
+    }
+
+    function closeAbout() {
+      document.getElementById("aboutPopup").style.display = "none";
+    }
   </script>
 </body>
 

@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,6 +13,7 @@
 
   <link id="theme-style" rel="stylesheet" href="css/style-dark.css" />
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/index.css">
   <link rel="stylesheet" href="css/menu.css">
 
 </head>
@@ -30,9 +35,21 @@
       <ul class="nav-links" id="navLinks">
         <li><a href="index.php">Home</a></li>
         <li><a href="menu.php">Menu</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="login.php" class="login-btn">Login →</a></li>
+        <li><a href="#" onclick="openAbout()">About Us</a></li>
+        <li><a href="contact.php">Contact</a></li>
+        <li>
+          <?php if (isset($_SESSION["user_id"]) && $_SESSION["role"] === "user"): ?>
+            <div class="profile-circle" id="profileCircle">
+              <?php echo strtoupper(substr($_SESSION["full_name"], 0, 1)); ?>
+              <div class="dropdown-menu" id="dropdownMenu">
+                <a href="profile.php">My Account</a>
+                <a href="logout.php">Logout</a>
+              </div>
+            </div>
+          <?php else: ?>
+            <a href="login.php" class="login-btn">Login →</a>
+          <?php endif; ?>
+        </li>
         <li class="cart"><a href="cart.php">🛒</a></li>
       </ul>
     </nav>
@@ -47,21 +64,27 @@
   // get the search keyword
   
   $search = isset($_POST['search']) && $_POST['search'] !== '' ? $_POST['search'] : '';
-  $sort = isset($_POST['sort']) ? $_POST['sort'] : 'top_rated';
+  // $sort = isset($_POST['sort']) ? $_POST['sort'] : 'top_rated';
   $cuisines = isset($_POST['cuisine']) ? (array) $_POST['cuisine'] : [];
 
   // Handle clear actions
   if (isset($_POST['clear_filter'])) {
-    $sort = 'top_rated';
+    // $sort = 'top_rated';
     $cuisines = [];
   }
 
-  // Build the SQL query
-  $sql = "SELECT * FROM food WHERE 1=1"; // Base query
-  
+  // Build the SQL query with JOINs
+  $sql = "SELECT f.id, f.name, f.price, f.description, f.image, c.title AS category, r.name AS restaurant, cu.name AS cuisine 
+          FROM food f 
+          LEFT JOIN categories c ON f.category_id = c.id 
+          LEFT JOIN restaurants r ON f.restaurant_id = r.id 
+          LEFT JOIN cuisines cu ON f.cuisine_id = cu.id 
+          WHERE 1=1";
+
   // Add search condition
   if (!empty($search)) {
-    $sql .= " AND (name LIKE '%$search%' OR cuisine LIKE '%$search%' OR restaurant LIKE '%$search%')";
+    $search = mysqli_real_escape_string($conn, $search);
+    $sql .= " AND (f.name LIKE '%$search%' OR cu.name LIKE '%$search%' OR r.name LIKE '%$search%')";
   }
 
   // Add cuisine filter
@@ -69,18 +92,18 @@
     $cuisine_conditions = [];
     foreach ($cuisines as $cuisine) {
       $cuisine = mysqli_real_escape_string($conn, $cuisine);
-      $cuisine_conditions[] = "cuisine = '$cuisine'";
+      $cuisine_conditions[] = "cu.name = '$cuisine'";
     }
     $sql .= " AND (" . implode(" OR ", $cuisine_conditions) . ")";
   }
 
   // Add sorting
-  if ($sort == 'top_rated') {
-    $sql .= " ORDER BY price DESC"; // Assuming price could be a proxy for rating if no rating column exists
-  } elseif ($sort == 'fastest') {
-    $sql .= " ORDER BY price ASC"; // Placeholder; replace with actual delivery_time if available
-  }
-
+  // if ($sort == 'top_rated') {
+  //   $sql .= " ORDER BY f.price DESC"; 
+  // } elseif ($sort == 'fastest') {
+  //   $sql .= " ORDER BY f.price ASC"; 
+  // }
+  
   $res = mysqli_query($conn, $sql);
 
   $count = mysqli_num_rows($res);
@@ -89,11 +112,12 @@
 
   <!-- fOOD MEnu Section Starts Here -->
   <section class="food-menu-container">
-    <div class="filter-container">
+    <div class="filter-container" id="filterContainer">
       <div class="filter">
+        <span class="filter-close-btn" id="filterCloseBtn">&times;</span>
         <p class="filter-text">Filters</p>
         <form action="menu.php" method="POST">
-          <div class="sort">
+          <!-- <div class="sort">
             <p>Sort By</p>
             <div>
               <input type="radio" name="sort" id="top_rated" value="top_rated" <?php echo ($sort == 'top_rated') ? 'checked' : ''; ?> onchange="this.form.submit()">
@@ -103,35 +127,35 @@
               <input type="radio" name="sort" id="fastest" value="fastest" <?php echo ($sort == 'fastest') ? 'checked' : ''; ?> onchange="this.form.submit()">
               <label for="fastest">Fastest Delivery</label>
             </div>
-          </div>
+          </div> -->
           <div class="cuisine">
             <p>Cuisines</p>
             <div>
-              <input type="checkbox" name="cuisine[]" id="american" value="american" <?php echo in_array('american', $cuisines) ? 'checked' : ''; ?> onchange="this.form.submit()">
+              <input type="checkbox" name="cuisine[]" id="american" value="American" <?php echo in_array('American', $cuisines) ? 'checked' : ''; ?> onchange="this.form.submit()">
               <label for="american">American</label><br>
             </div>
             <div>
-              <input type="checkbox" name="cuisine[]" id="bangla" value="bangla" <?php echo in_array('bangla', $cuisines) ? 'checked' : ''; ?> onchange="this.form.submit()">
+              <input type="checkbox" name="cuisine[]" id="bangla" value="Bangla" <?php echo in_array('Bangla', $cuisines) ? 'checked' : ''; ?> onchange="this.form.submit()">
               <label for="bangla">Bangla</label><br>
             </div>
             <div>
-              <input type="checkbox" name="cuisine[]" id="chinese" value="chinese" <?php echo in_array('chinese', $cuisines) ? 'checked' : ''; ?> onchange="this.form.submit()">
+              <input type="checkbox" name="cuisine[]" id="chinese" value="Chinese" <?php echo in_array('Chinese', $cuisines) ? 'checked' : ''; ?> onchange="this.form.submit()">
               <label for="chinese">Chinese</label><br>
             </div>
             <div>
-              <input type="checkbox" name="cuisine[]" id="indian" value="indian" <?php echo in_array('indian', $cuisines) ? 'checked' : ''; ?> onchange="this.form.submit()">
+              <input type="checkbox" name="cuisine[]" id="indian" value="Indian" <?php echo in_array('Indian', $cuisines) ? 'checked' : ''; ?> onchange="this.form.submit()">
               <label for="indian">Indian</label><br>
             </div>
             <div>
-              <input type="checkbox" name="cuisine[]" id="italian" value="italian" <?php echo in_array('italian', $cuisines) ? 'checked' : ''; ?> onchange="this.form.submit()">
+              <input type="checkbox" name="cuisine[]" id="italian" value="Italian" <?php echo in_array('Italian', $cuisines) ? 'checked' : ''; ?> onchange="this.form.submit()">
               <label for="italian">Italian</label><br>
             </div>
             <div>
-              <input type="checkbox" name="cuisine[]" id="japanese" value="japanese" <?php echo in_array('japanese', $cuisines) ? 'checked' : ''; ?> onchange="this.form.submit()">
+              <input type="checkbox" name="cuisine[]" id="japanese" value="Japanese" <?php echo in_array('Japanese', $cuisines) ? 'checked' : ''; ?> onchange="this.form.submit()">
               <label for="japanese">Japanese</label><br>
             </div>
             <div>
-              <input type="checkbox" name="cuisine[]" id="mexican" value="mexican" <?php echo in_array('mexican', $cuisines) ? 'checked' : ''; ?> onchange="this.form.submit()">
+              <input type="checkbox" name="cuisine[]" id="mexican" value="Mexican" <?php echo in_array('Mexican', $cuisines) ? 'checked' : ''; ?> onchange="this.form.submit()">
               <label for="mexican">Mexican</label><br>
             </div>
           </div>
@@ -148,6 +172,7 @@
               <input type="search" name="search" id="searchInput" placeholder="Search for Food.."
                 value="<?php echo $search; ?>">
               <input type="submit" name="search-submit" value="Search" class="btn btn-primary" style="padding: 1% 2%;">
+              <button type="button" id="filterToggleBtn">Filters</button>
             </div>
             <div>
             </div>
@@ -170,7 +195,7 @@
               $name = $row["name"];
               $price = $row["price"];
               $description = $row["description"];
-              $category = $row["category_title"];
+              $category = $row["category"];
               $restaurant = $row["restaurant"];
               $cuisine = $row["cuisine"];
               $image = $row["image"];
@@ -185,7 +210,7 @@
                   } else {
                     ?>
 
-                    <img src="uploads/<?php echo $image; ?>" alt="Chicke Hawain Pizza" class="img-responsive img-curve">
+                    <img src="uploads/<?php echo $image; ?>" alt="<?php echo $name; ?>" class="img-responsive img-curve">
 
                     <?php
                   }
@@ -207,6 +232,7 @@
                       data-category="<?php echo htmlspecialchars($category); ?>"
                       data-description="<?php echo htmlspecialchars($description); ?>"
                       data-restaurant="<?php echo htmlspecialchars($restaurant); ?>"
+                      data-cuisine="<?php echo htmlspecialchars($cuisine); ?>"
                       data-image="<?php echo $image ? 'uploads/' . htmlspecialchars($image) : ''; ?>">Quick View</a>
                     <!-- <a href="#" class="btn btn-primary" data-id="<?php echo $id; ?>">Add to cart</a> -->
                     <a href="#" class="btn btn-primary add-to-cart" data-id="<?php echo $id; ?>"
@@ -252,6 +278,27 @@
         </div>
         <a href="#" class="btn-primary add-to-cart">Add to Cart</a>
       </div>
+    </div>
+  </div>
+
+  <!-- Triggered by clicking "About Us" link in nav -->
+  <!-- About Us Popup -->
+  <div class="popup" id="aboutPopup">
+    <div class="popup-content">
+      <span onclick="closeAbout()">&times;</span>
+      <h2>About Us</h2>
+      <p>
+        Launched in 2021, Our technology platform connects customers,<br>
+        restaurant partners and delivery partners, serving their multiple needs. <br>
+        Customers use our platform to search and discover restaurants, read and write customer
+        generated reviews and view and upload photos,<br> order food delivery, book a table and make
+        payments while dining-out at restaurants. On the other hand,<br> we provide restaurant partners
+        with industry-specific marketing tools which enable them to engage and acquire customers<br> to
+        grow their business while also providing a reliable <br>and efficient last mile delivery service.
+        We also operate a one-stop procurement solution, <br>Hyperpure, which supplies high quality ingredients
+        and kitchen products to restaurant partners.<br> We also provide our delivery partners with transparent
+        and flexible earning opportunities.
+      </p>
     </div>
   </div>
 
@@ -304,6 +351,9 @@
       const modal = document.getElementById("foodModal");
       const closeBtn = document.querySelector(".close-btn");
       const quickViewButtons = document.querySelectorAll(".quick-view");
+      const filterToggleBtn = document.getElementById("filterToggleBtn");
+      const filterContainer = document.getElementById("filterContainer");
+      const filterCloseBtn = document.getElementById("filterCloseBtn");
 
       // Restore Theme
       const savedTheme = localStorage.getItem("theme");
@@ -323,6 +373,42 @@
           hamburger.classList.remove('active');
           navLinks.classList.remove('show');
         });
+      });
+
+      // Profile dropdown toggle
+      document.getElementById('profileCircle')?.addEventListener('click', function () {
+        const dropdown = document.getElementById('dropdownMenu');
+        dropdown.classList.toggle('show');
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function (event) {
+        const profileCircle = document.getElementById('profileCircle');
+        const dropdown = document.getElementById('dropdownMenu');
+        if (profileCircle && dropdown && !profileCircle.contains(event.target)) {
+          dropdown.classList.remove('show');
+        }
+      });
+
+      // Toggle filter container on button click for small screens
+      filterToggleBtn.addEventListener('click', function () {
+        if (window.innerWidth <= 768) {
+          filterContainer.classList.toggle('show');
+        }
+      });
+
+      // Close filter container when clicking the close button
+      filterCloseBtn.addEventListener('click', function () {
+        if (window.innerWidth <= 768) {
+          filterContainer.classList.remove('show');
+        }
+      });
+
+      // Close filter container when clicking outside on small screens
+      document.addEventListener('click', function (event) {
+        if (window.innerWidth <= 768 && !filterContainer.contains(event.target) && !filterToggleBtn.contains(event.target)) {
+          filterContainer.classList.remove('show');
+        }
       });
 
       // Handle search input clear (browser clear button or manual deletion)
@@ -481,6 +567,16 @@
       });
 
     });
+  </script>
+
+  <script>
+    function openAbout() {
+      document.getElementById("aboutPopup").style.display = "block";
+    }
+
+    function closeAbout() {
+      document.getElementById("aboutPopup").style.display = "none";
+    }
   </script>
 </body>
 

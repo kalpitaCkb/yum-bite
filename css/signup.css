@@ -7,14 +7,14 @@ body {
 }
 
 .wrapper-container {
-  height: 85vh;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .wrapper {
-  width: 350px;
+  width: 450px;
   background: #000000;
   padding: 40px;
   border-radius: 10px;
@@ -77,4 +77,10 @@ body {
   background-color: rgb(210, 104, 104);
   padding: 10px;
   margin-bottom: 6px;
+}
+
+@media screen and (max-width: 768px) {
+  .wrapper {
+    width: 350px;
+  }
 }
